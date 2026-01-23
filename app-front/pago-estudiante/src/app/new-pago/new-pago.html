@@ -1,0 +1,62 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{ isEditMode ? 'Editar Pago' : 'Nuevo Pago de ' + nombreEstudiante}}
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <form [formGroup]="pagoFormGroup">
+    <mat-card-content class="form-content">
+      <mat-form-field *ngIf="isEditMode" appearance="outline" class="full-width">
+        <mat-label>Alumno</mat-label>
+        <input type="text" matInput formControlName="estudiante" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayEstudiante"
+          (optionSelected)="onEstudianteSelected($event.option.value)">
+          <mat-option *ngFor="let estudiante of estudiantesFiltrados" [value]="estudiante">
+            {{ displayEstudiante(estudiante) }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha de Pago</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number" formControlName="cantidad">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de Pago</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let tipo of tiposPagos" [value]="tipo">
+            {{ tipo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="isAdmin('ADMIN')" appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let estado of estadosPagos" [value]="estado">
+            {{ estado }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions>
+      <button class="button-style" (click)="guardarOEditarPago()" [disabled]="pagoFormGroup.invalid" mat-raised-button>
+        {{ isEditMode ? 'Actualizar Pago' : 'Guardar Pago' }}
+      </button>
+      <button class="button-style" (click)="regresarPaginaAnterior()" mat-raised-button>
+        Regresar
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

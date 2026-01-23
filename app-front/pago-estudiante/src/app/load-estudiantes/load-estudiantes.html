@@ -1,0 +1,89 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Gestión de Estudiantes
+      </mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-toolbar><!--barra de herramientes que contiene un buton para acceder al metodo de agregar pago-->
+      <button mat-icon-button class="button-style" (click)="agregarEstudiante()">
+        <mat-icon>person_add</mat-icon>
+      </button>
+      <button mat-raised-button class="button-style" (click)="regresarPaginaAnterior()">Regresar</button>
+      <mat-form-field appearance="outline" style="width: 30%; float: right; margin-top: auto;">
+        <mat-label>Buscar estudiante por nombre</mat-label>
+        <input matInput (keyup)="filtrarEstudiantes($event)" />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </mat-toolbar>
+    <mat-card>
+      <mat-divider></mat-divider>
+
+      <mat-card-content>
+        <table mat-table [dataSource]="estudiantesDataSource" class="mat-elevation-z1">
+          <!--Fuente de datos que contiene el componente TS-->
+          <!--Cada columna se define con ng-container-->
+          <ng-container matColumnDef="idEstudiante"><!--Identificador de la columna-->
+            <th mat-header-cell *matHeaderCellDef>Id Estudiante</th>
+            <td mat-cell *matCellDef="let element">{{ element.idEstudiante }}</td>
+          </ng-container>
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+          </ng-container>
+          <ng-container matColumnDef="apellidoPaterno">
+            <th mat-header-cell *matHeaderCellDef>Apellido Paterno</th>
+            <td mat-cell *matCellDef="let element">{{ element.apellidoPaterno }}</td>
+          </ng-container>
+          <ng-container matColumnDef="apellidoMaterno">
+            <th mat-header-cell *matHeaderCellDef>Apellido Materno</th>
+            <td mat-cell *matCellDef="let element">{{ element.apellidoMaterno }}</td>
+          </ng-container>
+          <ng-container matColumnDef="foto">
+            <th mat-header-cell *matHeaderCellDef>Foto</th>
+            <td mat-cell *matCellDef="let element">
+              <img *ngIf="element.foto" [src]="'http://localhost:8080' + element.foto" width="50" height="50"
+                style="border-radius: 5px;" />
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="programaId">
+            <th mat-header-cell *matHeaderCellDef>programaId</th>
+            <td mat-cell *matCellDef="let element">{{ element.programaId }}</td>
+          </ng-container>
+          <ng-container matColumnDef="domicilio">
+            <th mat-header-cell *matHeaderCellDef>Domicilio</th>
+            <td mat-cell *matCellDef="let element">{{ element.domicilio }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="eliminarEstudiante">
+            <th mat-header-cell *matHeaderCellDef>Eliminar Estudiante</th>
+            <td mat-cell *matCellDef="let estudiante">
+              <button mat-icon-button class="button-style" (click)="eliminarEstudiante(estudiante.idEstudiante)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="editarEstudiante">
+            <th mat-header-cell *matHeaderCellDef>Editar Estudiante</th>
+            <td mat-cell *matCellDef="let estudiante">
+              <button mat-icon-button class="button-style" (click)="editarEstudiante(estudiante)">
+                <mat-icon>create</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <!--
+        <tr mat-header-row>: Define la fila de encabezado usando las columnas definidas en displayedColumns.
+        <tr mat-row>: Define las filas de datos usando displayedColumns, Esto conecta las columnas declaradas con la fila de la tabla.
+        -->
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </mat-card>
+</div>

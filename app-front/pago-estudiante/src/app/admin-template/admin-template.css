@@ -1,0 +1,35 @@
+.my-toolbar {
+  background-color: burlywood;
+  color: black;
+}
+
+.my-drawer-container {
+  background-image: url('/assets/fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: Roboto, sans-serif;
+  color: black;
+}
+
+.button-style {
+  color: black !important;
+  display: block;
+  margin: 8px auto;
+}
+
+
+.button-style.mat-mdc-raised-button {
+  background-color: whitesmoke;
+  color: red;
+}
+
+.drawer-style {
+  background-color: burlywood;
+  width: 150px;
+}
+
+.drawer-style .mi-boton.mat-mdc-text-button .mat-button-wrapper {
+  color: #5c3a00;
+  font-weight: 500;
+}

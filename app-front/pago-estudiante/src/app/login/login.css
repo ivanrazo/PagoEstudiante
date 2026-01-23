@@ -1,0 +1,25 @@
+mat-form-field{
+  display: block;
+}
+
+.login-form{
+  width: 400px;
+  flex: auto;
+  align-content: center;
+  margin: auto;
+}
+
+.align-end{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-style{
+  color: rgba(172, 103, 12, 0.712);          
+  background-color: burlywood; 
+}
+
+.button-style.mat-mdc-raised-button {
+  background-color: whitesmoke;
+  color: #5c3a00;
+}

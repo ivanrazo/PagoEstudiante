@@ -1,0 +1,55 @@
+<div>
+  <mat-card [formGroup]="estudianteFormGroup" class="card-container">
+    <mat-card-header>
+      <mat-card-title>{{ esEdicion ? 'Editar Estudiante' : 'Nuevo Estudiante' }}</mat-card-title>
+    </mat-card-header>
+    <div class="foto-presentacion" *ngIf="preview || fotoActual">
+      <img [src]="preview || fotoActual" alt="Foto del estudiante" class="foto-grande" />
+    </div>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre(s)</mat-label>
+        <input matInput formControlName="nombre" appUppercase>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Apellido Paterno</mat-label>
+        <input matInput formControlName="apellidoPaterno" appUppercase>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Apellido Materno</mat-label>
+        <input matInput formControlName="apellidoMaterno" appUppercase>
+      </mat-form-field>
+
+      <div class="file-upload">
+        <label for="foto">Foto del estudiante:</label>
+        <input id="foto" type="file" (change)="onFileSelected($event)" />
+      </div>
+
+      <div class="foto-preview">
+        <!-- Mostrar foto existente si no hay preview -->
+        <img *ngIf="!preview && fotoActual" [src]="fotoActual" alt="Foto actual del estudiante"
+          class="foto-estudiante" />
+
+        <!-- Mostrar preview de nueva foto -->
+        <img *ngIf="preview" [src]="preview" alt="Vista previa de la foto" class="foto-estudiante" />
+      </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Programa Id</mat-label>
+        <input matInput formControlName="programaId" appUppercaseTwo>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Domicilio</mat-label>
+        <input matInput formControlName="domicilio" appUppercaseThree>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <button class="button-style" (click)="guardarEstudiante()" [disabled]="estudianteFormGroup.invalid"
+          mat-raised-button>{{ esEdicion ? 'Actualizar Estudiante' : 'Guardar Estudiante' }}</button>
+        <button class="button-style" (click)="regresarPaginaAnterior()" mat-raised-button>Regresar</button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</div>

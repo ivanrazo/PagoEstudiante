@@ -1,0 +1,76 @@
+<div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Estudiantes</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-form-field appearance="outline" style="width: 30%; float: right">
+        <mat-label>Buscar estudiante por nombre</mat-label>
+        <input matInput (keyup)="filtrarEstudiantes($event)" />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <table mat-table [dataSource]="estudiantesDataSource" matSort class="mat-elevation-z1">
+
+        <ng-container matColumnDef="foto">
+          <th mat-header-cell *matHeaderCellDef>Foto</th>
+          <td mat-cell *matCellDef="let element">
+            <img *ngIf="element.foto" [src]="'http://localhost:8080' + element.foto" width="50" height="50"
+              style="border-radius: 5px;" />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+          <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="apellidoPaterno">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido Paterno</th>
+          <td mat-cell *matCellDef="let element">{{ element.apellidoPaterno }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="apellidoMaterno">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido Materno</th>
+          <td mat-cell *matCellDef="let element">{{ element.apellidoMaterno }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="programaId">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Programa</th>
+          <td mat-cell *matCellDef="let element">{{ element.programaId }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="domicilio">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Domicilio</th>
+          <td mat-cell *matCellDef="let element">{{ element.domicilio }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="agregarPago">
+          <th mat-header-cell *matHeaderCellDef>Agregar Pago</th>
+          <td mat-cell *matCellDef="let estudiante">
+            <button mat-icon-button class="button-style" (click)="agregarPago(estudiante)">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="mostrarPagos">
+          <th mat-header-cell *matHeaderCellDef>Mostrar Pagos</th>
+          <td mat-cell *matCellDef="let estudiante">
+            <button mat-icon-button class="button-style" (click)="mostrarPagos(estudiante)">
+              <mat-icon>assignment</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+    <mat-card-actions>
+      <button class="button-style" mat-raised-button (click)="regresarPaginaAnterior()">Regresar</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

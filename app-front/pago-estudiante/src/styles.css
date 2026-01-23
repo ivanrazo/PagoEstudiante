@@ -1,0 +1,14 @@
+/* Aplicar fondo a toda la app */
+html, body {
+  height: 100%;   /* importante para que el fondo cubra todo */
+  margin: 0;      /* quitar márgenes predeterminados */
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-image: url('/assets/fondo.jpg'); /* tu imagen */
+  background-size: cover;     /* ajusta la imagen al tamaño de pantalla */
+  background-position: center; /* centra la imagen */
+  background-repeat: no-repeat; /* evita repetición */
+  font-family: Roboto, sans-serif; /* opcional, para que coincida con Angular Material */
+}

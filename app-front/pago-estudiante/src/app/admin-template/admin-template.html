@@ -1,0 +1,50 @@
+<mat-toolbar class="my-toolbar"> <!--Barra de herramientas con color-->
+  <button mat-button (click)="myDrawer.toggle()">
+    <mat-icon>menu</mat-icon><!--mydrawer abre y cierra el panel lateral del menu-->
+  </button>
+
+  <span style="flex: auto;"></span> <!--Empuja los botones siguientes hacia la derecha del toolbar-->
+
+  <button mat-button routerLink="/admin/home"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+    Inicio
+</button>
+
+  <button *ngIf="authService.roles.includes('ADMIN')" mat-button [matMenuTriggerFor]="importMenu">
+    <!--Solo se muestra si el rol del usuario es admin, matMenuTriggerFor= conecta con el menu desplegable-->
+    <mat-icon>build</mat-icon>
+    <mat-icon iconPositionEnd>keyboard_arrow_down</mat-icon><!--Icono flecha abajo-->
+    Gestión
+  </button>
+  <mat-menu #importMenu> <!--Bloque del button importar-->
+    <button mat-menu-item routerLink="/admin/loadEstudiantes">Gestionar Estudiantes</button><!-- RouterLnk manda a la urta declarada en el componente Routes -->
+    <button mat-menu-item routerLink="/admin/loadPagos">Gestionar Pagos</button>
+  </mat-menu>
+  <button mat-button *ngIf="authService.isAuthenticated"><!--Este button solo aparece si el usuario esta autentificado-->
+    {{ authService.username }}
+  </button>
+  <button (click)="logout()" mat-raised-button class="button-style">Salir</button>
+</mat-toolbar><!--buton que aplica el metodo logout-->
+
+<mat-drawer-container class="my-drawer-container"> <!--Es el contenedor lateral-->
+  <mat-drawer #myDrawer opened="false" mode="side" position="start" class="drawer-style"><!--menu lateral y sus propiedades-->
+    <mat-list>
+      <mat-list-item>
+        <button mat-button class="button-style" routerLink="/admin/estudiantes">
+          <mat-icon>account_circle</mat-icon>
+          Estudiantes
+        </button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-button class="button-style" routerLink="/admin/pagos">
+          <mat-icon>monetization_on</mat-icon>
+          Pagos
+        </button>
+      </mat-list-item>
+    </mat-list>
+  </mat-drawer>
+  <mat-drawer-content> <!--Contenido dinamico segun la ruta-->
+    <div style="min-height: 600px;">
+      <router-outlet></router-outlet><!--Es como un puntero para saber a que componente se va a dirigir-->
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

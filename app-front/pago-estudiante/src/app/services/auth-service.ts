@@ -1,0 +1,43 @@
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  
+  //Administra los roles de acceso
+
+  //variables de estado
+  public users: any = {
+    admin: { password: '1234', roles: ['ESTUDIANTE', 'ADMIN'] },
+    user1: { password: '1234', roles: ['ESTUDIANTE'] }
+  };
+
+  public username: any;
+  public isAuthenticated: boolean = false;
+  public roles: string[] = [];
+
+  constructor(private router: Router) { } //para direccionar
+
+  //asigna el rol, usuario y true a la autentificacion
+  public login(username: string, password: string): boolean {
+    if (this.users[username] && this.users[username]['password'] == password) {
+      this.username = username;
+      this.isAuthenticated = true;
+      this.roles = this.users[username]['roles'];
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  
+  //regresa el estado de falso a la autentificacion, rol vacio, sin usuario, manda al componente de login 
+  logout() {
+    this.isAuthenticated = false;
+    this.roles = [];
+    this.username = undefined;
+    this.router.navigateByUrl("/login");
+  }
+}
