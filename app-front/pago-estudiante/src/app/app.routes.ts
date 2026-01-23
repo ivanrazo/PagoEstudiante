@@ -11,6 +11,8 @@ import { NewEstudiante } from "./new-estudiante/new-estudiante";
 import { NewPago } from "./new-pago/new-pago";
 import { PagoEstudiante } from "./pago-estudiante/pago-estudiante";
 import { Pagos } from "./pagos/pagos";
+import { Docentes } from "./docentes/docentes";
+import { Materias } from "./materias/materias";
 
 export const routes: Routes = [
   { path: '', component: Login },
@@ -35,6 +37,8 @@ export const routes: Routes = [
       },
       { path: 'estudiantes', component: Estudiantes },
       { path: 'pagos', component: Pagos },
+      { path: 'docentes', component: Docentes },
+      { path: 'materias', component: Materias },
       { path: 'new-estudiante', component: NewEstudiante,
         canActivate: [authorizationGuard], 
         data: { roles: ['ADMIN'] } 
