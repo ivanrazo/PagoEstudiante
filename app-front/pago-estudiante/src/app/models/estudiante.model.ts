@@ -25,13 +25,13 @@ export interface Pago {
   };
 }
 
-export interface materias {
+export interface Materia {
   idMaterias: number;
   nombreMateria: string;
   creditos: number;
 }
 
-export interface docente {
+export interface Docente {
   idDocente: number;
   nombreDocente: string;
   apellidoPaterno: string;
