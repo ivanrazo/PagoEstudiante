@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.pago_estudiante.entities.Docente;
 import com.example.pago_estudiante.entities.Estudiante;
+import com.example.pago_estudiante.entities.Materia;
 import com.example.pago_estudiante.entities.Pago;
 import com.example.pago_estudiante.services.IDocenteService;
 import com.example.pago_estudiante.services.IEstudianteService;
@@ -48,6 +50,7 @@ public class Controller {
             @RequestParam String apellidoMaterno,
             @RequestParam String programaId,
             @RequestParam String domicilio,
+            @RequestParam Date horario,
             @RequestParam(required = false) MultipartFile foto) throws IOException {
 
         Estudiante estudiante = new Estudiante();
@@ -56,6 +59,7 @@ public class Controller {
         estudiante.setApellidoMaterno(apellidoMaterno);
         estudiante.setProgramaId(programaId);
         estudiante.setDomicilio(domicilio);
+        estudiante.setHorario(horario);
 
         if (foto != null && !foto.isEmpty()) {
             String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
@@ -88,6 +92,7 @@ public class Controller {
             @RequestParam String apellidoMaterno,
             @RequestParam String programaId,
             @RequestParam String domicilio,
+            @RequestParam Date horario,
             @RequestParam(required = false) MultipartFile foto) throws IOException {
 
         Estudiante estudianteExistente = estudianteService.buscarEstudiantePorId(idEstudiante);
@@ -99,6 +104,7 @@ public class Controller {
         estudianteExistente.setApellidoMaterno(apellidoMaterno);
         estudianteExistente.setProgramaId(programaId);
         estudianteExistente.setDomicilio(domicilio);
+        estudianteExistente.setHorario(horario);
 
         if (foto != null && !foto.isEmpty()) {
             String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
@@ -233,12 +239,14 @@ public class Controller {
             @RequestParam String apellidoPaterno,
             @RequestParam String apellidoMaterno,
             @RequestParam String email,
+            @RequestParam Date horario,
             @RequestParam(required = false) MultipartFile foto) throws IOException {
 
         Docente docente = new Docente();
         docente.setNombreDocente(nombreDocente);
         docente.setApellidoPaterno(apellidoPaterno);
         docente.setApellidoMaterno(apellidoMaterno);
+        docente.setHorario(horario);
         docente.setEmail(email);
 
         if (foto != null && !foto.isEmpty()) {
@@ -271,6 +279,7 @@ public class Controller {
             @RequestParam String apellidoPaterno,
             @RequestParam String apellidoMaterno,
             @RequestParam String email,
+            @RequestParam Date horario,
             @RequestParam(required = false) MultipartFile foto) throws IOException {
 
         Docente docenteExistente = docenteService.buscarDocentePorId(idDocente);
@@ -281,6 +290,7 @@ public class Controller {
         docenteExistente.setApellidoPaterno(apellidoPaterno);
         docenteExistente.setApellidoMaterno(apellidoMaterno);
         docenteExistente.setEmail(email);
+        docenteExistente.setHorario(horario);
 
         if (foto != null && !foto.isEmpty()) {
             String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
@@ -302,4 +312,50 @@ public class Controller {
         docenteService.eliminarDocente(idDocente);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/materias")
+    public List<Materia> listarMaterias() {
+        return materiaService.listarMaterias();
+    }
+
+    @PostMapping("/materias")
+    public ResponseEntity<Materia> agregarMateria(
+            @RequestParam String nombreMateria,
+            @RequestParam Integer creditos){
+
+        Materia materia = new Materia();
+        materia.setNombreMateria(nombreMateria);
+        materia.setCreditos(creditos);
+
+        Materia materiaNueva = materiaService.agregarMateria(materia);
+        return ResponseEntity.status(201).body(materiaNueva);
+    }
+
+   @PutMapping("/Materias/{idMateria}")
+    public ResponseEntity<Materia> editarMateria(
+            @PathVariable Long idMateria,
+            @RequestParam String nombreMateria,
+            @RequestParam Integer creditos
+        )
+            {
+        Materia materiaExistente = materiaService.buscarMateriaPorId(idMateria);
+        if (materiaExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+        materiaExistente.setNombreMateria(nombreMateria);
+        materiaExistente.setCreditos(creditos);
+
+        Materia materiaModificada = materiaService.agregarMateria(materiaExistente);
+        return ResponseEntity.ok(materiaModificada);
+    }
+
+    @DeleteMapping("/pagos/{idPago}")
+    public ResponseEntity<?> eliminarMateria(@PathVariable Long idMateria) {
+        if (materiaService.buscarMateriaPorId(idMateria) == null) {
+            return ResponseEntity.badRequest().body("La materia no existe");
+        }
+        materiaService.eliminarMateria(idMateria);
+        return ResponseEntity.noContent().build();
+    }
+
 }

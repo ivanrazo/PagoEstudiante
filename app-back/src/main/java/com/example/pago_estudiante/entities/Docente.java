@@ -30,7 +30,7 @@ public class Docente {
     private String apellidoMaterno;
     private String email;
     private String foto;
-    private Date horarios;
+    private Date horario;
 
     @ManyToMany
     @JoinTable(
