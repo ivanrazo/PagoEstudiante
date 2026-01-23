@@ -5,9 +5,10 @@
 
   <span style="flex: auto;"></span> <!--Empuja los botones siguientes hacia la derecha del toolbar-->
 
-  <button mat-button routerLink="/admin/home"><mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"></mat-icon>
+  <button mat-button routerLink="/admin/home"><mat-icon aria-hidden="false" aria-label="Example home icon"
+      fontIcon="home"></mat-icon>
     Inicio
-</button>
+  </button>
 
   <button *ngIf="authService.roles.includes('ADMIN')" mat-button [matMenuTriggerFor]="importMenu">
     <!--Solo se muestra si el rol del usuario es admin, matMenuTriggerFor= conecta con el menu desplegable-->
@@ -16,17 +17,20 @@
     Gestión
   </button>
   <mat-menu #importMenu> <!--Bloque del button importar-->
-    <button mat-menu-item routerLink="/admin/loadEstudiantes">Gestionar Estudiantes</button><!-- RouterLnk manda a la urta declarada en el componente Routes -->
+    <button mat-menu-item routerLink="/admin/loadEstudiantes">Gestionar
+      Estudiantes</button><!-- RouterLnk manda a la urta declarada en el componente Routes -->
     <button mat-menu-item routerLink="/admin/loadPagos">Gestionar Pagos</button>
   </mat-menu>
-  <button mat-button *ngIf="authService.isAuthenticated"><!--Este button solo aparece si el usuario esta autentificado-->
+  <button mat-button
+    *ngIf="authService.isAuthenticated"><!--Este button solo aparece si el usuario esta autentificado-->
     {{ authService.username }}
   </button>
   <button (click)="logout()" mat-raised-button class="button-style">Salir</button>
 </mat-toolbar><!--buton que aplica el metodo logout-->
 
 <mat-drawer-container class="my-drawer-container"> <!--Es el contenedor lateral-->
-  <mat-drawer #myDrawer opened="false" mode="side" position="start" class="drawer-style"><!--menu lateral y sus propiedades-->
+  <mat-drawer #myDrawer opened="false" mode="side" position="start"
+    class="drawer-style"><!--menu lateral y sus propiedades-->
     <mat-list>
       <mat-list-item>
         <button mat-button class="button-style" routerLink="/admin/estudiantes">
@@ -34,25 +38,28 @@
           Estudiantes
         </button>
       </mat-list-item>
-      <mat-list-item>
-        <button mat-button class="button-style" routerLink="/admin/pagos">
-          <mat-icon>monetization_on</mat-icon>
-          Pagos
-        </button>
-      </mat-list-item>
+
       <mat-list-item>
         <button mat-button class="button-style" routerLink="/admin/docentes">
-          <mat-icon>monetization_on</mat-icon>
+          <mat-icon>school</mat-icon>
           Docentes
         </button>
       </mat-list-item>
 
       <mat-list-item>
         <button mat-button class="button-style" routerLink="/admin/materias">
-          <mat-icon>monetization_on</mat-icon>
+          <mat-icon>receipt</mat-icon>
           Materias
         </button>
       </mat-list-item>
+
+      <mat-list-item>
+        <button mat-button class="button-style" routerLink="/admin/pagos">
+          <mat-icon>monetization_on</mat-icon>
+          Pagos
+        </button>
+      </mat-list-item>
+
     </mat-list>
   </mat-drawer>
   <mat-drawer-content> <!--Contenido dinamico segun la ruta-->

@@ -349,7 +349,7 @@ public class Controller {
         return ResponseEntity.ok(materiaModificada);
     }
 
-    @DeleteMapping("/pagos/{idPago}")
+    @DeleteMapping("/materia/{idMateria}")
     public ResponseEntity<?> eliminarMateria(@PathVariable Long idMateria) {
         if (materiaService.buscarMateriaPorId(idMateria) == null) {
             return ResponseEntity.badRequest().body("La materia no existe");
