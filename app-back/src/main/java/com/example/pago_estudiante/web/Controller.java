@@ -228,28 +228,28 @@ public class Controller {
     }
 
     @PostMapping("/docentes")
-    public ResponseEntity<Estudiante> agregarDocente(
+    public ResponseEntity<Docente> agregarDocente(
             @RequestParam String nombreDocente,
             @RequestParam String apellidoPaterno,
             @RequestParam String apellidoMaterno,
             @RequestParam String email,
             @RequestParam(required = false) MultipartFile foto) throws IOException {
 
-        Estudiante estudiante = new Estudiante();
-        estudiante.setNombre(nombreDocente);
-        estudiante.setApellidoPaterno(apellidoPaterno);
-        estudiante.setApellidoMaterno(apellidoMaterno);
-        estudiante.setProgramaId(email);
+        Docente docente = new Docente();
+        docente.setNombreDocente(nombreDocente);
+        docente.setApellidoPaterno(apellidoPaterno);
+        docente.setApellidoMaterno(apellidoMaterno);
+        docente.setEmail(email);
 
         if (foto != null && !foto.isEmpty()) {
             String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
             Path path = Paths.get("uploads/" + filename);
             Files.createDirectories(path.getParent());
             Files.write(path, foto.getBytes());
-            estudiante.setFoto(filename);
+            docente.setFoto(filename);
         }
 
-        Estudiante nuevo = estudianteService.agregarEstudiante(estudiante);
+        Docente nuevo = docenteService.agregarDocente(docente);
         return ResponseEntity.status(201).body(nuevo);
     }
 

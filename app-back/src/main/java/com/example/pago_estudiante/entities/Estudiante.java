@@ -1,5 +1,6 @@
 package com.example.pago_estudiante.entities;
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,6 +40,8 @@ public class Estudiante {
     private String domicilio;
 
     private String foto;
+
+    private Date horario;
 
     @OneToMany(mappedBy = "estudiante", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
