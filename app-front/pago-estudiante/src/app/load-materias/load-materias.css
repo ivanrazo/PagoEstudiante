@@ -1,0 +1,15 @@
+.button-style{
+  color: rgb(179, 87, 80); 
+  display:block;
+  margin: 3px auto;
+  align-items: center;
+  align-content: center;
+}
+
+.mat-card-title{
+  text-align: center;
+}
+
+td.mat-cell {
+  text-align: center;
+}

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { DocenteService } from '../services/docente-service';
 import { Docente, Estudiante } from '../models/estudiante.model';
 import { CommonModule } from '@angular/common';
@@ -34,7 +34,7 @@ import { Location } from '@angular/common';
   templateUrl: './load-docentes.html',
   styleUrl: './load-docentes.css',
 })
-export class LoadDocentes {
+export class LoadDocentes implements OnInit{
 
   docentesDataSource = new MatTableDataSource<Docente>([]);
   displayedColumns: string[] = [
@@ -113,7 +113,6 @@ export class LoadDocentes {
     });
   }
 
-  //muestra un SweetAlert de alerta para confirmar la accion, 
   eliminarDocente(idDocente: number): void {
     Swal.fire({
       title: '¿Estás seguro?',
@@ -150,7 +149,6 @@ export class LoadDocentes {
     cancelButtonText: 'Cancelar'
   }).then(result => {
     if (result.isConfirmed) {
-      // Llamada al servicio
       this.docenteService.asignarMaterias(idDocente, idMateria).subscribe({
         next: docenteActualizado => {
           Swal.fire(
@@ -171,8 +169,8 @@ export class LoadDocentes {
   });
 }
 
-asignarMaterias() {
-throw new Error('Method not implemented.');
+asignarMaterias(idMateria: number) {
+
 }
 
 

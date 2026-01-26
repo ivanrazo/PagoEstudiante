@@ -84,25 +84,25 @@ export class NewEstudiante implements OnInit {
     });
   }
 
-cargarEstudiantePorId(idEstudiante: number) {
-  this.estudiantesService.buscarEstudiantePorId(idEstudiante).subscribe({
-    next: (estudiante: Estudiante) => {
-      this.estudianteFormGroup.patchValue(estudiante);
+  cargarEstudiantePorId(idEstudiante: number) {
+    this.estudiantesService.buscarEstudiantePorId(idEstudiante).subscribe({
+      next: (estudiante: Estudiante) => {
+        this.estudianteFormGroup.patchValue(estudiante);
 
-      if (estudiante.foto) {
-        const nombreArchivo = estudiante.foto.startsWith('/uploads/') 
-          ? estudiante.foto.substring(9) 
-          : estudiante.foto;
+        if (estudiante.foto) {
+          const nombreArchivo = estudiante.foto.startsWith('/uploads/')
+            ? estudiante.foto.substring(9)
+            : estudiante.foto;
 
-        this.fotoActual = `${this.imageHost.replace(/\/$/, '')}/${nombreArchivo}`;
+          this.fotoActual = `${this.imageHost.replace(/\/$/, '')}/${nombreArchivo}`;
+        }
+      },
+      error: () => {
+        Swal.fire('Error', 'No se pudo cargar el estudiante', 'error');
+        this.router.navigate(['/admin/estudiantes']);
       }
-    },
-    error: () => {
-      Swal.fire('Error', 'No se pudo cargar el estudiante', 'error');
-      this.router.navigate(['/admin/estudiantes']);
-    }
-  });
-}
+    });
+  }
 
 
   onFileSelected(event: any) {
@@ -115,8 +115,6 @@ cargarEstudiantePorId(idEstudiante: number) {
     }
   }
 
-
-  
   guardarEstudiante() {
     if (this.estudianteFormGroup.invalid) {
       Swal.fire('Formulario incompleto', 'Completa los campos requeridos', 'warning');
@@ -133,7 +131,7 @@ cargarEstudiantePorId(idEstudiante: number) {
     formData.append('domicilio', estudiante.domicilio);
 
     if (this.fotoFile) {
-      formData.append('foto', this.fotoFile);
+      formData.append('foto', this.fotoFile, this.fotoFile.name);
     }
 
     if (this.esEdicion) {

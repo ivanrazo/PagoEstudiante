@@ -43,7 +43,7 @@ export class Docentes implements OnInit{
 
   imageHost = environment.imageHost;
 
-  displayedColumns: string[] = ['foto','nombreDocente','apellidoPaterno','apellidoMaterno', 'email','mostrarMaterias'];
+  displayedColumns: string[] = ['foto','nombreDocente','apellidoPaterno','apellidoMaterno', 'email', 'mostrarMaterias', 'mostrarHorarios'];
 
   docentesDataSource = new MatTableDataSource<Docente>();
 

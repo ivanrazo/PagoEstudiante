@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MateriaService } from '../services/materia-service';
 import { DocenteService } from '../services/docente-service';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -9,21 +9,22 @@ import {CommonModule, Location } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-materias',
   imports: [
-    CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule, MatDividerModule, MatCardModule
+    CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule, MatDividerModule, MatCardModule, MatIconModule
   ],
   templateUrl: './materias.html',
   styleUrl: './materias.css',
 })
-export class Materias {
+export class Materias implements OnInit{
   nombreDocente: string = '';
   idEstudiante!: number;
   public materias: any[] = [];
   public dataSource!: MatTableDataSource<Materia>;
-  public displayedColumns = ['idMateria', 'nombreMateria', 'creditos', 'docente'];
+  public displayedColumns = ['idMateria', 'nombreMateria', 'creditos', 'docentes', 'alumnosInscritos'];
   public docentesDataSource: any;
 
   /*

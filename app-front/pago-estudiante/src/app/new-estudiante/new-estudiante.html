@@ -5,6 +5,11 @@
     </mat-card-header>
     <div class="foto-presentacion" *ngIf="preview || fotoActual">
       <img [src]="preview || fotoActual" alt="Foto del estudiante" class="foto-grande" />
+      <button mat-mini-fab class="editar-foto-btn" (click)="fotoInput.click()">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <!-- Input oculto para seleccionar archivo -->
+      <input type="file" #fotoInput style="display:none" (change)="onFileSelected($event)" />
     </div>
     <mat-divider></mat-divider>
     <mat-card-content>

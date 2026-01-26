@@ -21,10 +21,17 @@
           <td mat-cell *matCellDef="let element">{{ element.creditos}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="docente">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Docente</th>
+        <ng-container matColumnDef="docentes">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Docentes</th>
           <td mat-cell *matCellDef="let element">    
-            {{ element.docente?.nombre}} {{element.docente?.apellidoPaterno}} {{element.docente?.apellidoMaterno}}
+           <button mat-icon-button class="button-style"><mat-icon>school</mat-icon></button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="alumnosInscritos">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Alumnos</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button class="button-style"><mat-icon>group</mat-icon></button>
           </td>
         </ng-container>
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Docente, Materia } from '../models/estudiante.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -16,7 +16,7 @@ import { Location } from '@angular/common';
   standalone: true,
   styleUrl: './materia-docente.css',
 })
-export class MateriaDocente {
+export class MateriaDocente implements OnInit{
   materiasDataSource = new MatTableDataSource<Materia>([]);
   displayedColumns: string[] = ['idMateria', 'creditos', 'horario'];
 
