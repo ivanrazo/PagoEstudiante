@@ -64,6 +64,15 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="inscribirMaterias">
+          <th mat-header-cell *matHeaderCellDef>Inscribir Materias</th>
+          <td mat-cell *matCellDef="let estudiante">
+            <button mat-icon-button class="button-style">
+              <mat-icon>assignment</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>

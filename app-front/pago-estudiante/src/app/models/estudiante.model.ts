@@ -26,9 +26,16 @@ export interface Pago {
 }
 
 export interface Materia {
-  idMaterias: number;
+  idMateria: number;
   nombreMateria: string;
   creditos: number;
+  idDocente?: number;
+  Docente?: {
+    idDocente: number;
+    nombreDocente: string;
+    apellidoPaterno: string;
+    apellidoMaterno: string;
+  }
 }
 
 export interface Docente {
@@ -38,6 +45,6 @@ export interface Docente {
   apellidoMaterno: string;
   email: string;
   foto: string;
-  horario: Date;
+  materias?: Materia[];
 }
 

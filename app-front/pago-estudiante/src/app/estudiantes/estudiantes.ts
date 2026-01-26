@@ -40,7 +40,7 @@ import { CommonModule } from '@angular/common';
 export class Estudiantes implements OnInit {
 
 
-  displayedColumns: string[] = ['foto','nombre','apellidoPaterno','apellidoMaterno', 'programaId','domicilio','agregarPago','mostrarPagos'];
+  displayedColumns: string[] = ['foto','nombre','apellidoPaterno','apellidoMaterno', 'programaId','domicilio', 'inscribirMaterias', 'agregarPago','mostrarPagos'];
 
   estudiantesDataSource = new MatTableDataSource<Estudiante>();
 

@@ -15,6 +15,7 @@ import { Docentes } from "./docentes/docentes";
 import { Materias } from "./materias/materias";
 import { NewDocente } from "./new-docente/new-docente";
 import { LoadDocentes } from "./load-docentes/load-docentes";
+import { MateriaDocente } from "./materia-docente/materia-docente";
 
 export const routes: Routes = [
   { path: '', component: Login },
@@ -64,6 +65,10 @@ export const routes: Routes = [
         data: { roles: ['ADMIN'] } 
        }, 
       { path: 'pago-estudiante', component: PagoEstudiante ,
+        canActivate: [authorizationGuard], 
+        data: { roles: ['ADMIN'] } 
+      },
+      { path: 'materia-docente', component: MateriaDocente ,
         canActivate: [authorizationGuard], 
         data: { roles: ['ADMIN'] } 
       },

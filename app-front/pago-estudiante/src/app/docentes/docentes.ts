@@ -13,6 +13,8 @@ import { DocenteService } from '../services/docente-service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { environment } from '../../environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-docentes',
@@ -39,7 +41,9 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class Docentes implements OnInit{
 
-  displayedColumns: string[] = ['foto','nombreDocente','apellidoPaterno','apellidoMaterno', 'email','materia'];
+  imageHost = environment.imageHost;
+
+  displayedColumns: string[] = ['foto','nombreDocente','apellidoPaterno','apellidoMaterno', 'email','mostrarMaterias'];
 
   docentesDataSource = new MatTableDataSource<Docente>();
 
@@ -92,6 +96,29 @@ export class Docentes implements OnInit{
   agregarDocente(docente: Docente): void {
   console.log('Docente seleccionado:', docente);
   this.router.navigate(['/admin/new-docente', docente.idDocente]);
+}
+
+getFotoUrl(foto?: string): string {
+  return foto
+    ? `${this.imageHost}/${foto}`
+    : 'assets/user-default.png';
+}
+
+mostrarMaterias(docente: Docente): void {
+  if (!docente.materias || docente.materias.length === 0) {
+    Swal.fire('Materias', 'Este docente no tiene materias asignadas', 'info');
+    return;
+  }
+
+  const listaMaterias = docente.materias
+    .map(m => m.nombreMateria)
+    .join('<br>');
+
+  Swal.fire({
+    title: 'Materias asignadas',
+    html: listaMaterias,
+    icon: 'info'
+  });
 }
 
   regresarPaginaAnterior(): void {

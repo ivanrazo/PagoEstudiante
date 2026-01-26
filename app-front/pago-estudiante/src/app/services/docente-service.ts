@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Docente } from '../models/estudiante.model';
+import { Docente, Materia } from '../models/estudiante.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class DocenteService {
-   constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   listarDocentes(): Observable<Docente[]> {
     return this.http.get<Array<Docente>>(`${environment.backendHost}/docentes`);
@@ -26,7 +26,18 @@ export class DocenteService {
     return this.http.put<Docente>(`${environment.backendHost}/docentes/${idDocente}`, formData);
   }
 
+  asignarMaterias(idDocente: number, idMateria: number): Observable<Docente> {
+    return this.http.post<Docente>(
+      `${environment.backendHost}/docentes/${idDocente}/materias/${idMateria}`,
+      {} // body vacío porque el backend no necesita datos adicionales
+    );
+  }
+
   eliminarDocente(idDocente: number): Observable<void> {
     return this.http.delete<void>(`${environment.backendHost}/docentes/${idDocente}`);
+  }
+
+  listarMateriasDelDocente(docente: Docente): Observable<Materia[]> {
+    return this.http.get<Array<Materia>>(`${environment.backendHost}/docentes/${docente.idDocente}/materias`);
   }
 }

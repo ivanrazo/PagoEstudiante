@@ -35,9 +35,10 @@ import { Location } from '@angular/common';
   styleUrl: './load-docentes.css',
 })
 export class LoadDocentes {
-docentesDataSource = new MatTableDataSource<Docente>([]);
+
+  docentesDataSource = new MatTableDataSource<Docente>([]);
   displayedColumns: string[] = [
-    'idDocente', 'nombre', 'apellidoPaterno', 'apellidoMaterno', 'foto', 'email', 'editarDocente', 'eliminarDocente'
+    'idDocente', 'nombreDocente', 'apellidoPaterno', 'apellidoMaterno', 'foto', 'email', 'asignarMateria', 'editarDocente', 'eliminarDocente'
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -137,6 +138,43 @@ docentesDataSource = new MatTableDataSource<Docente>([]);
       }
     });
   }
+
+  asignarMateria(idDocente: number, idMateria: number): void {
+  // Pregunta de confirmación
+  Swal.fire({
+    title: 'Asignar Materia',
+    text: '¿Deseas asignar esta materia al docente?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, asignar',
+    cancelButtonText: 'Cancelar'
+  }).then(result => {
+    if (result.isConfirmed) {
+      // Llamada al servicio
+      this.docenteService.asignarMaterias(idDocente, idMateria).subscribe({
+        next: docenteActualizado => {
+          Swal.fire(
+            'Asignada',
+            'La materia se ha asignado correctamente al docente',
+            'success'
+          );
+          // Actualiza la tabla localmente
+          const index = this.docentesDataSource.data.findIndex(d => d.idDocente === docenteActualizado.idDocente);
+          if (index !== -1) {
+            this.docentesDataSource.data[index] = docenteActualizado;
+            this.docentesDataSource._updateChangeSubscription(); // Actualiza la tabla
+          }
+        },
+        error: () => Swal.fire('Error', 'No se pudo asignar la materia', 'error')
+      });
+    }
+  });
+}
+
+asignarMaterias() {
+throw new Error('Method not implemented.');
+}
+
 
   getFotoUrl(foto?: string): string {
     return foto
