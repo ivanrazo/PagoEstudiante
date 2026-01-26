@@ -17,9 +17,12 @@
     Gestión
   </button>
   <mat-menu #importMenu> <!--Bloque del button importar-->
-    <button mat-menu-item routerLink="/admin/loadEstudiantes">Gestionar
-      Estudiantes</button><!-- RouterLnk manda a la urta declarada en el componente Routes -->
-    <button mat-menu-item routerLink="/admin/loadPagos">Gestionar Pagos</button>
+    <button mat-menu-item routerLink="/admin/loadEstudiantes">
+      Gestionar Estudiantes</button><!-- RouterLnk manda a la urta declarada en el componente Routes -->
+    <button mat-menu-item routerLink="/admin/loadPagos">
+      Gestionar Pagos</button>
+    <button mat-menu-item routerLink="/admin/loadDocentes">
+      Gestionar Docentes</button>
   </mat-menu>
   <button mat-button
     *ngIf="authService.isAuthenticated"><!--Este button solo aparece si el usuario esta autentificado-->

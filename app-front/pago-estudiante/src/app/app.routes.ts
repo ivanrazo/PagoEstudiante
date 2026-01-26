@@ -13,6 +13,8 @@ import { PagoEstudiante } from "./pago-estudiante/pago-estudiante";
 import { Pagos } from "./pagos/pagos";
 import { Docentes } from "./docentes/docentes";
 import { Materias } from "./materias/materias";
+import { NewDocente } from "./new-docente/new-docente";
+import { LoadDocentes } from "./load-docentes/load-docentes";
 
 export const routes: Routes = [
   { path: '', component: Login },
@@ -35,6 +37,12 @@ export const routes: Routes = [
         canActivate: [authorizationGuard], 
         data: { roles: ['ADMIN'] } 
       },
+      { 
+        path: 'loadDocentes', 
+        component: LoadDocentes, 
+        canActivate: [authorizationGuard], 
+        data: { roles: ['ADMIN'] } 
+      },
       { path: 'estudiantes', component: Estudiantes },
       { path: 'pagos', component: Pagos },
       { path: 'docentes', component: Docentes },
@@ -43,7 +51,15 @@ export const routes: Routes = [
         canActivate: [authorizationGuard], 
         data: { roles: ['ADMIN'] } 
       }, 
+      { path: 'new-docente', component: NewDocente,
+        canActivate: [authorizationGuard], 
+        data: { roles: ['ADMIN'] } 
+      },
       { path: 'new-estudiante/:idEstudiante', component: NewEstudiante,
+        canActivate: [authorizationGuard], 
+        data: { roles: ['ADMIN'] } 
+       }, 
+       { path: 'new-docente/:idDocente', component: NewDocente,
         canActivate: [authorizationGuard], 
         data: { roles: ['ADMIN'] } 
        }, 

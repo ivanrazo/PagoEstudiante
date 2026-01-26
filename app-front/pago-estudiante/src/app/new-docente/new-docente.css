@@ -1,0 +1,57 @@
+mat-form-field {
+  display: block;
+}
+
+.alumno-form {
+  width: 500px;
+}
+
+.button-style {
+  color: rgb(179, 87, 80);
+  display: block;
+  margin: 8px auto;
+}
+
+.card-container {
+  width: 100%;
+  height: auto;
+}
+
+.foto-presentacion {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.foto-grande {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  /* estilo perfil */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.file-upload {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.file-upload label {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.foto-preview {
+  margin-top: 8px;
+}
+
+.foto-estudiante {
+  width: 50px; 
+  height: 50px;
+  border-radius: 8px; 
+  object-fit: cover;  
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  margin-right: 8px;
+}

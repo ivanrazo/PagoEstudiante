@@ -52,11 +52,11 @@ export class Docentes implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.cargarEstudiantes();
+    this.cargarDocentes();
     this.configurarFiltro();
   }
 
-  cargarEstudiantes(): void {
+  cargarDocentes(): void {
     this.docenteService.listarDocentes().subscribe({
       next: docentes => {
         this.docentesDataSource.data = docentes;
