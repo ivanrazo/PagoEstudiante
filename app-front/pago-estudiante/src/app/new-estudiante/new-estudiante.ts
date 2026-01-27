@@ -35,7 +35,8 @@ import { environment } from '../../environments/environment.development';
     MatInputModule,
     UppercaseDirective,
     UppercaseTwoDirective,
-    UppercaseThreeDirective
+    UppercaseThreeDirective,
+    ReactiveFormsModule
   ],
   templateUrl: './new-estudiante.html',
   styleUrls: ['./new-estudiante.css']

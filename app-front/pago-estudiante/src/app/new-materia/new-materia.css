@@ -1,0 +1,13 @@
+.button-style{
+  color: rgb(179, 87, 80); 
+  display:block;
+  margin: 8px auto;
+}
+
+.foto-style {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-top: 10px;
+  border-radius: 4px;
+}

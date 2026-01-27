@@ -40,4 +40,10 @@ export class DocenteService {
   listarMateriasDelDocente(docente: Docente): Observable<Materia[]> {
     return this.http.get<Array<Materia>>(`${environment.backendHost}/docentes/${docente.idDocente}/materias`);
   }
+
+  asignarMateria(idDocente: number, idMateria: number): Observable<Docente> {
+    return this.http.post<Docente>(`${environment.backendHost}/${idDocente}/materias/${idMateria}`,
+      {}
+    );
+  }
 }

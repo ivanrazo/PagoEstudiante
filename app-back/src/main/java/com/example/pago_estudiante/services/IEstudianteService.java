@@ -12,4 +12,6 @@ public interface IEstudianteService {
     public Estudiante buscarEstudiantePorId(Long idEstudiante);
 
     public void eliminarEstudiante(Long idEstudiante);
+
+    public Estudiante asignarMateria(Long idEstudiante, Long idMateria);
 }

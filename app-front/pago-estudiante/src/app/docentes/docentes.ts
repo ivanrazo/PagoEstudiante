@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-docentes',
+  standalone: true,
   imports: [
     MatCardModule,
     ReactiveFormsModule,

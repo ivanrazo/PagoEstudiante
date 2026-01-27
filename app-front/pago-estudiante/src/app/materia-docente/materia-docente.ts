@@ -104,8 +104,8 @@ export class MateriaDocente implements OnInit{
   //  });
   //}
 
-  agregarPago(): void {
-    this.router.navigate(['/admin/new-materia', this.idDocente]);
+  agregarMateria(idMateria: number, idDocente: number): void {
+    this.materiaService.buscarMateriaPorId
   }
 
   regresarPaginaAnterior(): void {

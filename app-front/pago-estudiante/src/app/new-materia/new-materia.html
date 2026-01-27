@@ -1,1 +1,24 @@
-<p>new-materia works!</p>
+<div>
+  <mat-card [formGroup]="materiaFormGroup" class="card-container">
+    <mat-card-header>
+      <mat-card-title>{{ esEdicion ? 'Editar Materia' : 'Nueva Materia' }}</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre Materia</mat-label>
+        <input matInput formControlName="nombreMateria" appUppercase>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Creditos</mat-label>
+        <input matInput formControlName="creditos" appOnlynumbers>
+      </mat-form-field>
+      <mat-card-actions>
+        <button class="button-style" (click)="guardarMateria()" [disabled]="materiaFormGroup.invalid"
+          mat-raised-button>{{ esEdicion ? 'Actualizar Materia' : 'Guardar Materia' }}</button>
+        <button class="button-style" (click)="regresarPaginaAnterior()" mat-raised-button>Regresar</button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</div>

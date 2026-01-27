@@ -13,11 +13,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
 @Component({
   standalone: true,
   selector: 'app-estudiantes',
   templateUrl: './estudiantes.html',
-  imports:[
+  imports: [
     MatCardModule,
     ReactiveFormsModule,
     MatFormFieldModule,
@@ -39,8 +40,9 @@ import { CommonModule } from '@angular/common';
 })
 export class Estudiantes implements OnInit {
 
+  imageHost = environment.imageHost;
 
-  displayedColumns: string[] = ['foto','nombre','apellidoPaterno','apellidoMaterno', 'programaId','domicilio', 'inscribirMaterias', 'agregarPago','mostrarPagos'];
+  displayedColumns: string[] = ['foto', 'nombre', 'apellidoPaterno', 'apellidoMaterno', 'programaId', 'domicilio', 'inscribirMaterias', 'agregarPago', 'mostrarPagos'];
 
   estudiantesDataSource = new MatTableDataSource<Estudiante>();
 
@@ -50,7 +52,7 @@ export class Estudiantes implements OnInit {
   constructor(
     private estudiantesService: EstudiantesService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cargarEstudiantes();
@@ -73,7 +75,7 @@ export class Estudiantes implements OnInit {
       estudiante: Estudiante,
       filtro: string
     ) => {
-      if(filtro.length<=2){
+      if (filtro.length <= 2) {
         return true;
       }
       return estudiante.nombre
@@ -91,12 +93,18 @@ export class Estudiantes implements OnInit {
   }
 
   agregarPago(estudiante: Estudiante): void {
-  console.log('Estudiante seleccionado:', estudiante);
-  this.router.navigate(['/admin/new-pago', estudiante.idEstudiante]);
-}
+    console.log('Estudiante seleccionado:', estudiante);
+    this.router.navigate(['/admin/new-pago', estudiante.idEstudiante]);
+  }
 
-  mostrarPagos(estudiante: Estudiante){
-      this.router.navigate(['/admin/pago-estudiante', estudiante.idEstudiante]);
+  mostrarPagos(estudiante: Estudiante) {
+    this.router.navigate(['/admin/pago-estudiante', estudiante.idEstudiante]);
+  }
+
+  getFotoUrl(foto?: string): string {
+    return foto
+      ? `${this.imageHost}/${foto}`
+      : 'assets/user-default.png';
   }
 
   regresarPaginaAnterior(): void {

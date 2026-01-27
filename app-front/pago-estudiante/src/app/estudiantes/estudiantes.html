@@ -16,8 +16,7 @@
         <ng-container matColumnDef="foto">
           <th mat-header-cell *matHeaderCellDef>Foto</th>
           <td mat-cell *matCellDef="let element">
-            <img *ngIf="element.foto" [src]="'http://localhost:8080' + element.foto" width="50" height="50"
-              style="border-radius: 5px;" />
+            <img [src]="getFotoUrl(element.foto)" width="50" height="50" style="border-radius: 5px;" />
           </td>
         </ng-container>
 

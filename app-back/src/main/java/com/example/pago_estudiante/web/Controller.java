@@ -59,7 +59,6 @@ public class Controller {
         estudiante.setApellidoMaterno(apellidoMaterno);
         estudiante.setProgramaId(programaId);
         estudiante.setDomicilio(domicilio);
-        estudiante.setHorario(horario);
 
         if (foto != null && !foto.isEmpty()) {
             String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
@@ -92,7 +91,6 @@ public class Controller {
             @RequestParam String apellidoMaterno,
             @RequestParam String programaId,
             @RequestParam String domicilio,
-            @RequestParam Date horario,
             @RequestParam(required = false) MultipartFile foto) throws IOException {
 
         Estudiante estudianteExistente = estudianteService.buscarEstudiantePorId(idEstudiante);
@@ -104,17 +102,25 @@ public class Controller {
         estudianteExistente.setApellidoMaterno(apellidoMaterno);
         estudianteExistente.setProgramaId(programaId);
         estudianteExistente.setDomicilio(domicilio);
-        estudianteExistente.setHorario(horario);
 
         if (foto != null && !foto.isEmpty()) {
             String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
-            Path path = Paths.get("uploads/" + filename);
+            Path path = Paths.get("/uploads/" + filename);
             Files.createDirectories(path.getParent());
             Files.write(path, foto.getBytes());
             estudianteExistente.setFoto("/uploads/" + filename);
         }
         Estudiante estudianteModificado = estudianteService.agregarEstudiante(estudianteExistente);
         return ResponseEntity.ok(estudianteModificado);
+    }
+
+    @PostMapping("/estudiantes/{idEstudiante}/materias/{idMateria}")
+    public ResponseEntity<Estudiante> asignarMateriaAEstudiante(
+            @PathVariable Long idEstudiante,
+            @PathVariable Long idMateria) {
+
+        Estudiante estudiante = estudianteService.asignarMateria(idEstudiante, idMateria);
+        return ResponseEntity.ok(estudiante);
     }
 
     @DeleteMapping("/estudiantes/{idEstudiante}")
@@ -239,14 +245,12 @@ public class Controller {
             @RequestParam String apellidoPaterno,
             @RequestParam String apellidoMaterno,
             @RequestParam String email,
-            @RequestParam Date horario,
             @RequestParam(required = false) MultipartFile foto) throws IOException {
 
         Docente docente = new Docente();
         docente.setNombreDocente(nombreDocente);
         docente.setApellidoPaterno(apellidoPaterno);
         docente.setApellidoMaterno(apellidoMaterno);
-        docente.setHorario(horario);
         docente.setEmail(email);
 
         if (foto != null && !foto.isEmpty()) {
@@ -279,7 +283,6 @@ public class Controller {
             @RequestParam String apellidoPaterno,
             @RequestParam String apellidoMaterno,
             @RequestParam String email,
-            @RequestParam Date horario,
             @RequestParam(required = false) MultipartFile foto) throws IOException {
 
         Docente docenteExistente = docenteService.buscarDocentePorId(idDocente);
@@ -290,7 +293,6 @@ public class Controller {
         docenteExistente.setApellidoPaterno(apellidoPaterno);
         docenteExistente.setApellidoMaterno(apellidoMaterno);
         docenteExistente.setEmail(email);
-        docenteExistente.setHorario(horario);
 
         if (foto != null && !foto.isEmpty()) {
             String filename = System.currentTimeMillis() + "_" + foto.getOriginalFilename();
@@ -301,6 +303,15 @@ public class Controller {
         }
         Docente docenteModificado = docenteService.agregarDocente(docenteExistente);
         return ResponseEntity.ok(docenteModificado);
+    }
+
+    @PostMapping("/docentes/{idDocente}/materias/{idMateria}")
+    public ResponseEntity<Docente> asignarMateriaADocente(
+            @PathVariable Long idDocente,
+            @PathVariable Long idMateria) {
+
+        Docente docente = docenteService.asignarMateria(idDocente, idMateria);
+        return ResponseEntity.ok(docente);
     }
 
     @DeleteMapping("/docentes/{idDocente}")
@@ -321,7 +332,7 @@ public class Controller {
     @PostMapping("/materias")
     public ResponseEntity<Materia> agregarMateria(
             @RequestParam String nombreMateria,
-            @RequestParam Integer creditos){
+            @RequestParam Integer creditos) {
 
         Materia materia = new Materia();
         materia.setNombreMateria(nombreMateria);
@@ -331,13 +342,11 @@ public class Controller {
         return ResponseEntity.status(201).body(materiaNueva);
     }
 
-   @PutMapping("/Materias/{idMateria}")
+    @PutMapping("/materias/{idMateria}")
     public ResponseEntity<Materia> editarMateria(
             @PathVariable Long idMateria,
             @RequestParam String nombreMateria,
-            @RequestParam Integer creditos
-        )
-            {
+            @RequestParam Integer creditos) {
         Materia materiaExistente = materiaService.buscarMateriaPorId(idMateria);
         if (materiaExistente == null) {
             return ResponseEntity.notFound().build();
@@ -349,7 +358,7 @@ public class Controller {
         return ResponseEntity.ok(materiaModificada);
     }
 
-    @DeleteMapping("/materia/{idMateria}")
+    @DeleteMapping("/materias/{idMateria}")
     public ResponseEntity<?> eliminarMateria(@PathVariable Long idMateria) {
         if (materiaService.buscarMateriaPorId(idMateria) == null) {
             return ResponseEntity.badRequest().body("La materia no existe");

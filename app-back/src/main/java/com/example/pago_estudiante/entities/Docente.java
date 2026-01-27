@@ -1,6 +1,5 @@
 package com.example.pago_estudiante.entities;
 
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,7 +29,6 @@ public class Docente {
     private String apellidoMaterno;
     private String email;
     private String foto;
-    private Date horario;
 
     @ManyToMany
     @JoinTable(

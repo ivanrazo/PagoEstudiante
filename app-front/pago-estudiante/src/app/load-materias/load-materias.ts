@@ -14,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-load-materias',
@@ -33,8 +34,8 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './load-materias.html',
   styleUrl: './load-materias.css',
 })
-export class LoadMaterias implements OnInit{
- displayedColumns: string[] = ['idMateria','nombreMateria','creditos','editarMateria', 'eliminarMateria'];
+export class LoadMaterias implements OnInit {
+  displayedColumns: string[] = ['idMateria', 'nombreMateria', 'creditos', 'editarMateria', 'eliminarMateria'];
 
   materiasDataSource = new MatTableDataSource<Materia>();
 
@@ -44,7 +45,7 @@ export class LoadMaterias implements OnInit{
   constructor(
     private materiaService: MateriaService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.cargarMaterias();
@@ -67,7 +68,7 @@ export class LoadMaterias implements OnInit{
       materia: Materia,
       filtro: string
     ) => {
-      if(filtro.length<=2){
+      if (filtro.length <= 2) {
         return true;
       }
       return materia.nombreMateria
@@ -85,19 +86,55 @@ export class LoadMaterias implements OnInit{
   }
 
   agregarMateria(): void {
-  this.router.navigate(['/admin/new-materia']);
-}
-
-  eliminarMateria(idmateria: number):void{
-    this.materiaService.eliminarMateria;
+    this.router.navigate(['/admin/new-materia']);
   }
 
-  mostrarDocentes(materia: Materia){
-      this.router.navigate(['/admin/materia-docente', materia.idMateria]);
+  eliminarMateria(idMateria: number): void {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará la materia permanentemente',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if (result.isConfirmed) {
+        // si se confirma se ejecuta el metodo del servicio
+        this.materiaService.eliminarMateria(idMateria).subscribe({
+          next: () => {
+            Swal.fire('Eliminado', 'Materia eliminada correctamente', 'success');
+            //Actualiza la tabla localmente
+            this.materiasDataSource.data = this.materiasDataSource.data.filter(
+              m => m.idMateria !== idMateria
+            );
+          },
+          error: () => Swal.fire('Error', 'No se pudo eliminar la materia', 'error')
+        });
+      }
+    });
+  }
+
+  mostrarDocentes(materia: Materia) {
+    this.router.navigate(['/admin/materia-docente', materia.idMateria]);
   }
 
   regresarPaginaAnterior(): void {
     window.history.back();
   }
 
+  editarMateria(materia: Materia): void {
+    Swal.fire({
+      title: '¿Editar Materia?',
+      text: 'Se abrirá el formulario para editar esta materia',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, editar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if (result.isConfirmed) {
+        console.log('Materia completa:', materia);
+        this.router.navigate(['/admin/new-materia', materia.idMateria]);
+      }
+    });
+  }
 }

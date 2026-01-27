@@ -1,3 +1,9 @@
 .texto{
     text-align: center;
 }
+
+.imagen {
+  object-fit: cover;
+  border-radius: 5%;
+   overflow: hidden;
+}

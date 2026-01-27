@@ -76,6 +76,10 @@ export const routes: Routes = [
         canActivate: [authorizationGuard], 
         data: { roles: ['ADMIN'] } 
        }, 
+       { path: 'new-materia/:idMateria', component: NewMateria,
+        canActivate: [authorizationGuard], 
+        data: { roles: ['ADMIN'] } 
+       }, 
       { path: 'pago-estudiante', component: PagoEstudiante ,
         canActivate: [authorizationGuard], 
         data: { roles: ['ADMIN'] } 

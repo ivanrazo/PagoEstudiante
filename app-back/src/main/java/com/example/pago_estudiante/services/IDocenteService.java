@@ -9,4 +9,5 @@ public interface IDocenteService {
     public Docente agregarDocente(Docente docente);
     public Docente buscarDocentePorId(Long idDocente);
     public void eliminarDocente(Long idDocente);
+    public Docente asignarMateria(Long idDocente, Long idMateria);
 }
