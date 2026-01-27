@@ -113,6 +113,10 @@ export class NewEstudiante implements OnInit {
       const reader = new FileReader();
       reader.onload = () => this.preview = reader.result as string;
       reader.readAsDataURL(this.fotoFile);
+
+      this.estudianteFormGroup.patchValue({
+      foto: this.fotoFile.name
+    });
     }
   }
 

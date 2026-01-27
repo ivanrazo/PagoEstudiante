@@ -90,7 +90,7 @@ export const routes: Routes = [
       },
        { path: 'pago-estudiante/:idEstudiante', component: PagoEstudiante ,
       },
-      { path: 'materia-docente/:idDocente', component: PagoEstudiante ,
+      { path: 'materia-docente/:idDocente', component: MateriaDocente ,
       },
       { path: 'new-pago/:idEstudiante', component: NewPago
        },

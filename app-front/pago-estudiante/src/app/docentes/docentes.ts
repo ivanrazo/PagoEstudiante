@@ -105,22 +105,9 @@ getFotoUrl(foto?: string): string {
     : 'assets/user-default.png';
 }
 
-mostrarMaterias(docente: Docente): void {
-  if (!docente.materias || docente.materias.length === 0) {
-    Swal.fire('Materias', 'Este docente no tiene materias asignadas', 'info');
-    return;
+mostrarMaterias(docente: Docente) {
+    this.router.navigate(['/admin/materia-docente', docente.idDocente]);
   }
-
-  const listaMaterias = docente.materias
-    .map(m => m.nombreMateria)
-    .join('<br>');
-
-  Swal.fire({
-    title: 'Materias asignadas',
-    html: listaMaterias,
-    icon: 'info'
-  });
-}
 
   regresarPaginaAnterior(): void {
     window.history.back();

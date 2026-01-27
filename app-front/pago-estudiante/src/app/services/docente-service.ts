@@ -46,4 +46,8 @@ export class DocenteService {
       {}
     );
   }
+
+  listarMateriasDeEstudiante(docente: Docente): Observable<Materia[]>{
+      return this.http.get<Array<Materia>>(`${environment.backendHost}/docentes/${docente.idDocente}/materias`);
+    }
 }

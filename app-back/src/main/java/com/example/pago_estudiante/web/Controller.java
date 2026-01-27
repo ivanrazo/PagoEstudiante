@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,6 @@ public class Controller {
             @RequestParam String apellidoMaterno,
             @RequestParam String programaId,
             @RequestParam String domicilio,
-            @RequestParam Date horario,
             @RequestParam(required = false) MultipartFile foto) throws IOException {
 
         Estudiante estudiante = new Estudiante();
@@ -312,6 +310,15 @@ public class Controller {
 
         Docente docente = docenteService.asignarMateria(idDocente, idMateria);
         return ResponseEntity.ok(docente);
+    }
+
+    @GetMapping("/docentes/{idDocente}/materias")
+    public ResponseEntity<List<Materia>> listarMateriasPorDocente(@PathVariable Long idDocente) {
+        Docente docente = docenteService.buscarDocentePorId(idDocente);
+        if (docente == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(docente.getMaterias());
     }
 
     @DeleteMapping("/docentes/{idDocente}")

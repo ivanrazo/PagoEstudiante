@@ -34,4 +34,8 @@ export class EstudiantesService {
   listarPagosDeEstudiante(estudiante: Estudiante): Observable<Pago[]> {
     return this.http.get<Array<Pago>>(`${environment.backendHost}/estudiantes/${estudiante.idEstudiante}/pagos`);
   }
+
+  listarMateriasDeEstudiante(estudiante: Estudiante): Observable<Materia[]>{
+    return this.http.get<Array<Materia>>(`${environment.backendHost}/estudiantes/${estudiante.idEstudiante}/materias`);
+  }
 }
