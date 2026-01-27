@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { environment } from '../../environments/environment.development';
 import { Location } from '@angular/common';
+import { MateriaService } from '../services/materia-service';
 
 @Component({
   selector: 'app-load-docentes',
@@ -34,7 +35,7 @@ import { Location } from '@angular/common';
   templateUrl: './load-docentes.html',
   styleUrl: './load-docentes.css',
 })
-export class LoadDocentes implements OnInit{
+export class LoadDocentes implements OnInit {
 
   docentesDataSource = new MatTableDataSource<Docente>([]);
   displayedColumns: string[] = [
@@ -45,6 +46,7 @@ export class LoadDocentes implements OnInit{
   @ViewChild(MatSort) sort!: MatSort;
   imageHost = environment.imageHost;
   constructor(
+    private materiaService: MateriaService,
     private docenteService: DocenteService,
     private router: Router,
     private location: Location
@@ -138,40 +140,49 @@ export class LoadDocentes implements OnInit{
     });
   }
 
-  asignarMateria(idDocente: number, idMateria: number): void {
-  // Pregunta de confirmación
-  Swal.fire({
-    title: 'Asignar Materia',
-    text: '¿Deseas asignar esta materia al docente?',
-    icon: 'question',
-    showCancelButton: true,
-    confirmButtonText: 'Sí, asignar',
-    cancelButtonText: 'Cancelar'
-  }).then(result => {
-    if (result.isConfirmed) {
-      this.docenteService.asignarMaterias(idDocente, idMateria).subscribe({
-        next: docenteActualizado => {
-          Swal.fire(
-            'Asignada',
-            'La materia se ha asignado correctamente al docente',
-            'success'
-          );
-          // Actualiza la tabla localmente
-          const index = this.docentesDataSource.data.findIndex(d => d.idDocente === docenteActualizado.idDocente);
-          if (index !== -1) {
-            this.docentesDataSource.data[index] = docenteActualizado;
-            this.docentesDataSource._updateChangeSubscription(); // Actualiza la tabla
+  asignarMateria(idDocente: number): void {
+    // Primero obtenemos las materias desde el servicio
+    this.materiaService.listarMaterias().subscribe({
+      next: materias => {
+        // Convertimos la lista de materias a formato SweetAlert2
+        const materiaOptions: { [key: number]: string } = {};
+        materias.forEach(m => {
+          materiaOptions[m.idMateria] = m.nombreMateria;
+        });
+
+        // Abrimos SweetAlert con selector
+        Swal.fire({
+          title: 'Selecciona una materia',
+          input: 'select',
+          inputOptions: materiaOptions,
+          inputPlaceholder: 'Elige una materia',
+          showCancelButton: true,
+          confirmButtonText: 'Asignar',
+          cancelButtonText: 'Cancelar',
+        }).then(result => {
+          if (result.isConfirmed && result.value) {
+            const idMateria = Number(result.value);
+
+            // Mandamos la asignación al backend
+            this.docenteService.asignarMaterias(idDocente, idMateria).subscribe({
+              next: docenteActualizado => {
+                Swal.fire('Asignada', 'Materia asignada correctamente', 'success');
+
+                // Actualizamos la tabla localmente
+                const index = this.docentesDataSource.data.findIndex(d => d.idDocente === idDocente);
+                if (index !== -1) {
+                  this.docentesDataSource.data[index] = docenteActualizado;
+                  this.docentesDataSource._updateChangeSubscription(); // fuerza actualización
+                }
+              },
+              error: () => Swal.fire('Error', 'No se pudo asignar la materia', 'error')
+            });
           }
-        },
-        error: () => Swal.fire('Error', 'No se pudo asignar la materia', 'error')
-      });
-    }
-  });
-}
-
-asignarMaterias(idMateria: number) {
-
-}
+        });
+      },
+      error: () => Swal.fire('Error', 'No se pudieron cargar las materias', 'error')
+    });
+  }
 
 
   getFotoUrl(foto?: string): string {

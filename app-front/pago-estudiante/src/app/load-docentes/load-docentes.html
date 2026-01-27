@@ -55,8 +55,8 @@
 
                     <ng-container matColumnDef="asignarMateria">
                         <th mat-header-cell *matHeaderCellDef>Asignar Materia</th>
-                        <td mat-cell *matCellDef="let materia">
-                            <button mat-icon-button class="button-style">
+                        <td mat-cell *matCellDef="let docente">
+                            <button mat-icon-button class="button-style" (click)="asignarMateria(docente.idDocente)">
                                 <mat-icon>note_add</mat-icon>
                             </button>
                         </td>
