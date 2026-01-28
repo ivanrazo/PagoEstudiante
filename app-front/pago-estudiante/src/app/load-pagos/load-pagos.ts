@@ -36,7 +36,7 @@ export class LoadPagos implements OnInit {
   idEstudiante!: number;
 
   displayedColumns: string[] = [
-    'idPago', 'fecha', 'cantidad', 'tipo', 'estado', 'estudiante', 'editarPago', 'eliminarPago'
+    'idPago', 'fecha', 'cantidad', 'tipo', 'estado', 'nombreCompleto', 'editarPago', 'eliminarPago'
   ];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

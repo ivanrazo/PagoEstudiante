@@ -45,12 +45,11 @@ public class Estudiante {
     @JsonIgnore
     private List<Pago> pagos;
 
+    @ManyToMany(mappedBy = "alumnos")
+    private List<CicloEscolar> ciclos;
+
     @ManyToMany
-    @JoinTable(
-        name = "estudiante_materia",
-        joinColumns = @JoinColumn(name = "estudiante_id"),
-        inverseJoinColumns = @JoinColumn(name = "materia_id")
-    )
+    @JoinTable(name = "estudiante_materia", joinColumns = @JoinColumn(name = "estudiante_id"), inverseJoinColumns = @JoinColumn(name = "materia_id"))
     @JsonIgnore
     private Set<Materia> materias;
 }

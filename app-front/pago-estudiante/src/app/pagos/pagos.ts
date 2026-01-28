@@ -22,7 +22,7 @@ export class Pagos implements OnInit {
   idEstudiante!: number;
   public pagos: any[] = [];
   public dataSource!: MatTableDataSource<Pago>;
-  public displayedColumns = ['idPago', 'fecha', 'cantidad', 'type', 'status', 'nombreEstudiante'];
+  public displayedColumns = ['idPago', 'fecha', 'cantidad', 'type', 'status', 'nombreCompleto'];
   public estudiantesDataSource: any;
 
   /*

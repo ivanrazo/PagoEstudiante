@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.pago_estudiante.dtos.PagoDTO;
 import com.example.pago_estudiante.entities.Docente;
 import com.example.pago_estudiante.entities.Estudiante;
 import com.example.pago_estudiante.entities.Materia;
@@ -151,8 +153,11 @@ public class Controller {
     }
 
     @GetMapping("/pagos")
-    public List<Pago> listarPagos() {
-        return pagoService.listarPagos();
+    public List<PagoDTO> listarPagos() {
+        return pagoService.listarPagos()
+                .stream()
+                .map(PagoDTO::new)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/estudiantes/{idEstudiante}/pagos")

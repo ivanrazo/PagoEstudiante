@@ -5,9 +5,9 @@ export interface Estudiante {
   apellidoMaterno: string;
   programaId: string;
   domicilio: string;
-  horario: Date;
   pagos?: Pago[];
   foto: string;
+  materias?: Materia[];
 }
 
 export interface Pago {
@@ -29,13 +29,9 @@ export interface Materia {
   idMateria: number;
   nombreMateria: string;
   creditos: number;
-  idDocente?: number;
-  Docente?: {
-    idDocente: number;
-    nombreDocente: string;
-    apellidoPaterno: string;
-    apellidoMaterno: string;
-  }
+  estudiantes?: Estudiante[];
+  docentes?: Docente[];
+  horarios?: Horario[];
 }
 
 export interface Docente {
@@ -48,3 +44,18 @@ export interface Docente {
   materias?: Materia[];
 }
 
+export interface Horario {
+  idHorario: number;
+  dia: string;
+  horaInicio: string;
+  horaFin: string;
+  aula: string;
+  materia?: Materia;
+}
+
+export interface CicloEscolar{
+idCicloEscolar: number;
+nombre: string;
+activo: boolean;
+estudiante?:Estudiante[];
+}
