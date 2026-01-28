@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -313,7 +314,7 @@ public class Controller {
     }
 
     @GetMapping("/docentes/{idDocente}/materias")
-    public ResponseEntity<List<Materia>> listarMateriasPorDocente(@PathVariable Long idDocente) {
+    public ResponseEntity<Set<Materia>> listarMateriasPorDocente(@PathVariable Long idDocente) {
         Docente docente = docenteService.buscarDocentePorId(idDocente);
         if (docente == null) {
             return ResponseEntity.notFound().build();

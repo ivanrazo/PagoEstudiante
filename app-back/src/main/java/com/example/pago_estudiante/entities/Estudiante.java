@@ -1,6 +1,7 @@
 package com.example.pago_estudiante.entities;
 
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -45,6 +46,11 @@ public class Estudiante {
     private List<Pago> pagos;
 
     @ManyToMany
-    @JoinTable(name = "estudiante_materia", joinColumns = @JoinColumn(name = "estudiante_id"), inverseJoinColumns = @JoinColumn(name = "materia_id"))
-    private List<Materia> materias;
+    @JoinTable(
+        name = "estudiante_materia",
+        joinColumns = @JoinColumn(name = "estudiante_id"),
+        inverseJoinColumns = @JoinColumn(name = "materia_id")
+    )
+    @JsonIgnore
+    private Set<Materia> materias;
 }

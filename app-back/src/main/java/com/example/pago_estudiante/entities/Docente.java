@@ -1,6 +1,6 @@
 package com.example.pago_estudiante.entities;
 
-import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -37,5 +37,5 @@ public class Docente {
         inverseJoinColumns = @JoinColumn(name = "materia_id")
     )
     @JsonIgnore
-    private List<Materia> materias;
+    private Set<Materia> materias;
 }

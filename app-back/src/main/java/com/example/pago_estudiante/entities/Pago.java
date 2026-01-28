@@ -6,6 +6,8 @@ import com.example.pago_estudiante.enums.TypePago;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,8 +33,10 @@ public class Pago {
 
     private double cantidad;
 
+    @Enumerated(EnumType.STRING)
     private TypePago type;
 
+    @Enumerated(EnumType.STRING)
     private PagoStatus status;
 
     @ManyToOne(fetch = FetchType.EAGER)
