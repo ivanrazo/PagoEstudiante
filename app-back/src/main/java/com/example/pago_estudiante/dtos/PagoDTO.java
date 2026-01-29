@@ -4,6 +4,9 @@ import java.time.LocalDate;
 
 import com.example.pago_estudiante.entities.Pago;
 
+import lombok.Data;
+
+@Data
 public class PagoDTO {
     private Long idPago;
     private LocalDate fecha;
@@ -25,36 +28,12 @@ public class PagoDTO {
         if (pago.getEstudiante() != null) {
             this.estudianteId = pago.getEstudiante().getIdEstudiante();
             this.nombreEstudiante = pago.getEstudiante().getNombre();
-            this.apellidoPaterno=pago.getEstudiante().getApellidoPaterno();
-            this.apellidoMaterno=pago.getEstudiante().getApellidoMaterno();
+            this.apellidoPaterno = pago.getEstudiante().getApellidoPaterno();
+            this.apellidoMaterno = pago.getEstudiante().getApellidoMaterno();
         }
     }
 
-    public Long getIdPago() {
-        return idPago;
-    }
-
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public double getCantidad() {
-        return cantidad;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public Long getEstudianteId() {
-        return estudianteId;
-    }
-
     public String getNombreCompleto() {
-    return nombreEstudiante + " " + apellidoPaterno + " " + apellidoMaterno;
-}
+        return nombreEstudiante + " " + apellidoPaterno + " " + apellidoMaterno;
+    }
 }

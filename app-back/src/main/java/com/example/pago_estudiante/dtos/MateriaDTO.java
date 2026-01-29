@@ -2,6 +2,8 @@ package com.example.pago_estudiante.dtos;
 
 import com.example.pago_estudiante.entities.Materia;
 
+import lombok.Data;
+@Data
 public class MateriaDTO {
 
     private Long idMateria;
