@@ -45,17 +45,16 @@ export interface Docente {
 }
 
 export interface Horario {
-  idHorario: number;
+  idHorario?: number;
   dia: string;
   horaInicio: string;
   horaFin: string;
   aula: string;
-  materia?: Materia;
+  materia: Materia;
 }
 
-export interface CicloEscolar{
-idCicloEscolar: number;
-nombre: string;
-activo: boolean;
-estudiante?:Estudiante[];
+export interface CicloEscolar {
+  idCicloEscolar?: number;
+  nombre: string;
+  activo: boolean;
 }

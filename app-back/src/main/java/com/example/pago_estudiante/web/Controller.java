@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,12 +19,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.pago_estudiante.dtos.PagoDTO;
+import com.example.pago_estudiante.entities.CicloEscolar;
 import com.example.pago_estudiante.entities.Docente;
 import com.example.pago_estudiante.entities.Estudiante;
+import com.example.pago_estudiante.entities.Horario;
 import com.example.pago_estudiante.entities.Materia;
 import com.example.pago_estudiante.entities.Pago;
+import com.example.pago_estudiante.services.ICicloEscolarService;
 import com.example.pago_estudiante.services.IDocenteService;
 import com.example.pago_estudiante.services.IEstudianteService;
+import com.example.pago_estudiante.services.IHorarioService;
 import com.example.pago_estudiante.services.IMateriaService;
 import com.example.pago_estudiante.services.IPagoService;
 
@@ -39,6 +45,10 @@ public class Controller {
     private IDocenteService docenteService;
     @Autowired
     private IMateriaService materiaService;
+    @Autowired
+    private IHorarioService horarioService;
+    @Autowired
+    private ICicloEscolarService cicloEscolarService;
 
     @GetMapping("/estudiantes")
     public List<Estudiante> listarEstudiantes() {
@@ -342,18 +352,24 @@ public class Controller {
         return materiaService.listarMaterias();
     }
 
-    @PostMapping("/materias")
-    public ResponseEntity<Materia> agregarMateria(
-            @RequestParam String nombreMateria,
-            @RequestParam Integer creditos) {
+@PostMapping("/materias")
+public ResponseEntity<Materia> agregarMateria(
+        @RequestParam String nombreMateria,
+        @RequestParam Integer creditos,
+        @RequestParam Long idCicloEscolar) {
 
-        Materia materia = new Materia();
-        materia.setNombreMateria(nombreMateria);
-        materia.setCreditos(creditos);
+    CicloEscolar ciclo = cicloEscolarService.buscarCicloEscolarPorId(idCicloEscolar);
+    if(ciclo == null) return ResponseEntity.badRequest().build();
 
-        Materia materiaNueva = materiaService.agregarMateria(materia);
-        return ResponseEntity.status(201).body(materiaNueva);
-    }
+    Materia materia = new Materia();
+    materia.setNombreMateria(nombreMateria);
+    materia.setCreditos(creditos);
+    materia.setCicloEscolar(ciclo);
+
+    Materia materiaNueva = materiaService.agregarMateria(materia);
+    return ResponseEntity.status(201).body(materiaNueva);
+}
+
 
     @PutMapping("/materias/{idMateria}")
     public ResponseEntity<Materia> editarMateria(
@@ -379,5 +395,159 @@ public class Controller {
         materiaService.eliminarMateria(idMateria);
         return ResponseEntity.noContent().build();
     }
+
+    // Listar todos los ciclos
+@GetMapping("/ciclos")
+public List<CicloEscolar> listarCiclos() {
+    return cicloEscolarService.listarCiclosEscolares();
+}
+
+// Crear un ciclo escolar
+@PostMapping("/ciclos")
+public ResponseEntity<CicloEscolar> agregarCiclo(
+        @RequestParam String nombre,
+        @RequestParam(defaultValue = "true") boolean activo) {
+
+    CicloEscolar ciclo = new CicloEscolar();
+    ciclo.setNombre(nombre);
+    ciclo.setActivo(activo);
+
+    CicloEscolar nuevo = cicloEscolarService.agregarCicloEscolar(ciclo);
+    return ResponseEntity.status(201).body(nuevo);
+}
+
+// Obtener ciclo por ID
+@GetMapping("/ciclos/{id}")
+public ResponseEntity<CicloEscolar> obtenerCiclo(@PathVariable Long id) {
+    CicloEscolar ciclo = cicloEscolarService.buscarCicloEscolarPorId(id);
+    if (ciclo == null) {
+        return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(ciclo);
+}
+
+// Editar ciclo escolar
+@PutMapping("/ciclos/{id}")
+public ResponseEntity<CicloEscolar> editarCiclo(
+        @PathVariable Long id,
+        @RequestParam String nombre,
+        @RequestParam boolean activo) {
+
+    CicloEscolar cicloExistente = cicloEscolarService.buscarCicloEscolarPorId(id);
+    if (cicloExistente == null) {
+        return ResponseEntity.notFound().build();
+    }
+
+    cicloExistente.setNombre(nombre);
+    cicloExistente.setActivo(activo);
+
+    CicloEscolar cicloModificado = cicloEscolarService.agregarCicloEscolar(cicloExistente);
+    return ResponseEntity.ok(cicloModificado);
+}
+
+// Eliminar ciclo escolar
+@DeleteMapping("/ciclos/{id}")
+public ResponseEntity<?> eliminarCiclo(@PathVariable Long id) {
+    CicloEscolar ciclo = cicloEscolarService.buscarCicloEscolarPorId(id);
+    if (ciclo == null) {
+        return ResponseEntity.badRequest().body("El ciclo no existe");
+    }
+    cicloEscolarService.eliminarCicloEscolar(id);
+    return ResponseEntity.noContent().build();
+}
+
+
+// Listar todos los horarios
+@GetMapping("/horarios")
+public List<Horario> listarHorarios() {
+    return horarioService.listarhorarios();
+}
+
+// Crear un horario
+@PostMapping("/horarios")
+public ResponseEntity<Horario> agregarHorario(
+        @RequestParam String dia,
+        @RequestParam String horaInicio,
+        @RequestParam String horaFin,
+        @RequestParam String aula,
+        @RequestParam Long idMateria) {
+
+    Materia materia = materiaService.buscarMateriaPorId(idMateria);
+    if (materia == null) {
+        return ResponseEntity.badRequest().body(null);
+    }
+
+    Horario horario = new Horario();
+    horario.setDia(dia);
+    horario.setHoraInicio(horaInicio);
+    horario.setHoraFin(horaFin);
+    horario.setAula(aula);
+    horario.setMateria(materia);
+
+    Horario nuevoHorario = horarioService.agregarHorario(horario);
+    return ResponseEntity.status(201).body(nuevoHorario);
+}
+
+// Obtener horario por ID
+@GetMapping("/horarios/{id}")
+public ResponseEntity<Horario> obtenerHorario(@PathVariable Long id) {
+    Horario horario = horarioService.buscarHorarioPorId(id);
+    if (horario == null) {
+        return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(horario);
+}
+
+// Editar horario
+@PutMapping("/horarios/{id}")
+public ResponseEntity<Horario> editarHorario(
+        @PathVariable Long id,
+        @RequestParam String dia,
+        @RequestParam String horaInicio,
+        @RequestParam String horaFin,
+        @RequestParam String aula,
+        @RequestParam Long idMateria) {
+
+    Horario horarioExistente = horarioService.buscarHorarioPorId(id);
+    if (horarioExistente == null) {
+        return ResponseEntity.notFound().build();
+    }
+
+    Materia materia = materiaService.buscarMateriaPorId(idMateria);
+    if (materia == null) {
+        return ResponseEntity.badRequest().body(null);
+    }
+
+    horarioExistente.setDia(dia);
+    horarioExistente.setHoraInicio(horaInicio);
+    horarioExistente.setHoraFin(horaFin);
+    horarioExistente.setAula(aula);
+    horarioExistente.setMateria(materia);
+
+    Horario horarioModificado = horarioService.agregarHorario(horarioExistente);
+    return ResponseEntity.ok(horarioModificado);
+}
+
+public List<Horario> obtenerHorariosEstudiante(Long idEstudiante) {
+    Estudiante est = estudianteService.buscarEstudiantePorId(idEstudiante);
+    if(est == null) return Collections.emptyList();
+
+    List<Horario> horarios = new ArrayList<>();
+    for(Materia m : est.getMaterias()) {
+        horarios.addAll(m.getHorarios());
+    }
+    return horarios;
+}
+
+// Eliminar horario
+@DeleteMapping("/horarios/{id}")
+public ResponseEntity<?> eliminarHorario(@PathVariable Long id) {
+    Horario horario = horarioService.buscarHorarioPorId(id);
+    if (horario == null) {
+        return ResponseEntity.badRequest().body("El horario no existe");
+    }
+    horarioService.eliminarHorario(id);
+    return ResponseEntity.noContent().build();
+}
 
 }
